@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e1630">
+  <title>Kingdom Crowns</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body data-screen="intro" data-spin="idle">
+  <div class="bg" aria-hidden="true">
+    <img src="assets/bg.webp" alt="">
+  </div>
+
+  <section id="intro">
+    <img class="banner" src="assets/banner.webp" alt="Kingdom Crowns, a royal slot.">
+    <div class="intro-copy">
+      <p class="eyebrow">A royal slot</p>
+      <div class="intro-actions">
+        <button type="button" id="enter" class="gold-button">Enter the hall</button>
+        <button type="button" id="watch" class="ghost-button">Watch the arrival</button>
+      </div>
+      <video id="intro-video" controls playsinline preload="none" hidden></video>
+      <p class="legal">18+ fictional demo. No real money. Not gambling. Not a real operator and not an offer to gamble.</p>
+    </div>
+  </section>
+
+  <section id="game" hidden>
+    <div class="play">
+      <div class="board">
+        <div class="crown-row" id="crown-row">
+          <div class="top-reel" data-top="0"><div class="strip"></div><i class="hit"></i></div>
+          <div class="top-reel" data-top="2"><div class="strip"></div><i class="hit"></i></div>
+          <div class="top-reel" data-top="4"><div class="strip"></div><i class="hit"></i></div>
+        </div>
+        <div class="grid-frame">
+          <div class="grid" id="grid">
+            <div class="reel" data-reel="0"><div class="strip"></div><i class="hit" data-row="0"></i><i class="hit" data-row="1"></i><i class="hit" data-row="2"></i></div>
+            <div class="reel" data-reel="1"><div class="strip"></div><i class="hit" data-row="0"></i><i class="hit" data-row="1"></i><i class="hit" data-row="2"></i></div>
+            <div class="reel" data-reel="2"><div class="strip"></div><i class="hit" data-row="0"></i><i class="hit" data-row="1"></i><i class="hit" data-row="2"></i></div>
+            <div class="reel" data-reel="3"><div class="strip"></div><i class="hit" data-row="0"></i><i class="hit" data-row="1"></i><i class="hit" data-row="2"></i></div>
+            <div class="reel" data-reel="4"><div class="strip"></div><i class="hit" data-row="0"></i><i class="hit" data-row="1"></i><i class="hit" data-row="2"></i></div>
+          </div>
+        </div>
+      </div>
+      <aside id="plaque" class="plaque" hidden>
+        <p class="plaque-kicker">Line win</p>
+        <p id="plaque-title" class="plaque-title"></p>
+        <p id="plaque-detail" class="plaque-detail"></p>
+        <p id="plaque-amount" class="plaque-amount"></p>
+      </aside>
+    </div>
+
+    <footer class="dock">
+      <p class="meter"><span>Balance</span><strong id="balance">1,000.00</strong></p>
+      <div class="bet-cluster">
+        <button type="button" id="bet-down" class="step" aria-label="Lower bet">−</button>
+        <button type="button" id="bet-open" class="bet-readout" aria-expanded="false">
+          <span>Bet</span><strong id="bet">1.00</strong>
+        </button>
+        <button type="button" id="bet-up" class="step" aria-label="Raise bet">+</button>
+        <div id="bet-sheet" class="bet-sheet" hidden></div>
+      </div>
+      <button type="button" id="spin" class="spin">Spin</button>
+      <p class="meter win-meter"><span>Win</span><strong id="win">0.00</strong></p>
+      <button type="button" id="open-paytable" class="ghost-button">Paytable</button>
+      <p id="note" class="note" hidden>Balance is below this bet.</p>
+    </footer>
+    <p class="legal dock-legal">18+ fictional demo. No real money. Not gambling. Not a real operator and not an offer to gamble.</p>
+  </section>
+
+  <div id="paytable" class="overlay" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="pay-title">
+      <header class="sheet-head">
+        <img src="assets/logo.webp" alt="Kingdom Crowns" class="sheet-logo">
+        <button type="button" id="paytable-close" class="ghost-button">Close</button>
+      </header>
+      <h2 id="pay-title">Paytable · line pays</h2>
+      <p class="lede">Only a full line of five pays. The prize is the multiplier times the total bet.</p>
+      <div class="pay-layout">
+        <ol id="pay-list" class="pay-list"></ol>
+        <aside class="specials">
+          <figure>
+            <img src="assets/tiles/wild.webp" alt="Wild">
+            <figcaption>Wild. Substitutes for paying symbols. No prize of its own.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/tiles/scatter.webp" alt="Scatter">
+            <figcaption>Scatter. Highlighted. Pays nothing and starts no feature.</figcaption>
+          </figure>
+        </aside>
+      </div>
+      <h3>The five lines</h3>
+      <div id="line-maps" class="line-maps"></div>
+      <div class="rules">
+        <p>Lines cross the 5×3 reels only. Left to right, row 0 is the top of that grid.</p>
+        <ul>
+          <li><strong>Top line</strong> — row 0 on reels 1 through 5.</li>
+          <li><strong>Middle line</strong> — row 1 on reels 1 through 5.</li>
+          <li><strong>Bottom line</strong> — row 2 on reels 1 through 5.</li>
+          <li><strong>V</strong> — row 0, row 1, row 2, row 1, row 0. The point sits on the centre reel.</li>
+          <li><strong>Inverted V</strong> — row 2, row 1, row 0, row 1, row 2.</li>
+        </ul>
+        <p>The crown row above reels 1, 3 and 5 is not a payline. Those cells show a wild, a scatter, or nothing.</p>
+        <p>A wild on the crown row is wild for every row of that reel, on every line. Wild does not stand in for scatter. A line of five wilds pays nothing, because wild has no prize and there is no paying symbol for it to stand in for.</p>
+        <p id="big-win-rule"></p>
+        <p>The reel strips are weighted so a crown line — five crowns, or crowns completed by wilds — lands on about 1 spin in 1,000. Wins on different lines are added together. Three of a kind and four of a kind pay nothing.</p>
+      </div>
+      <p class="legal tight">18+ fictional demo. No real money. Not gambling. Not a real operator and not an offer to gamble.</p>
+    </div>
+  </div>
+
+  <div id="bigwin" class="overlay" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="big-title">
+      <p id="big-kicker" class="kicker"></p>
+      <h2 id="big-title">Big Win</h2>
+      <p id="big-detail"></p>
+      <p id="big-amount"></p>
+      <button type="button" id="collect" class="gold-button">Collect</button>
+      <p class="legal tight">18+ fictional demo. No real money. Not gambling.</p>
+    </div>
+  </div>
+
+  <aside id="test-panel" hidden>
+    <p>Test spins</p>
+    <button type="button" id="force-crown">Crown line</button>
+    <button type="button" id="force-seven">7 line</button>
+    <label>Symbol
+      <select id="force-symbol-select"></select>
+    </label>
+    <button type="button" id="force-symbol">Force symbol line</button>
+    <button type="button" id="force-loss">Loss</button>
+  </aside>
+
+  <div class="asset-preload" hidden>
+    <img src="assets/tiles/wild.webp" alt="">
+    <img src="assets/tiles/scatter.webp" alt="">
+    <img src="assets/tiles/crown.webp" alt="">
+    <img src="assets/tiles/sword.webp" alt="">
+    <img src="assets/tiles/shield.webp" alt="">
+    <img src="assets/tiles/7.webp" alt="">
+    <img src="assets/tiles/A.webp" alt="">
+    <img src="assets/tiles/K.webp" alt="">
+    <img src="assets/tiles/Q.webp" alt="">
+    <img src="assets/tiles/J.webp" alt="">
+    <img src="assets/tiles/10.webp" alt="">
+  </div>
+  <script type="module" src="js/ui.js"></script>
+</body>
+</html>
