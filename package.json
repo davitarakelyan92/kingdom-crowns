@@ -1,0 +1,14 @@
+{
+  "name": "kingdom-crowns",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node tests/serve.mjs",
+    "test": "node --test tests/engine.test.mjs",
+    "simulate": "node tests/simulate.mjs",
+    "test:browser": "node tests/browser.test.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.15.0"
+  }
+}
